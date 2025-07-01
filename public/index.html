@@ -11,22 +11,27 @@
 
   <!-- Tell bots this is an HTML page -->
   <meta charset="utf-8"/>
-  <title>{{ title }}</title>
+  <title>Ponder 🔊</title>
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ponder 🔊" />
+  <meta name="twitter:description" content="Listen to a Ponder." />
+  <meta name="twitter:image" content="https://storage.googleapis.com/firstread1234.appspot.com/static_objects/ponder_social.jpg" />
+
   
   <!-- Open Graph (Facebook, iMessage, LinkedIn, etc.) -->
-  <meta property="og:type"        content="website" />
+  <!-- <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://share.ponderwith.us/{{discourseId}}" />
   <meta property="og:title"       content="{{ title }}" />
   <meta property="og:description" content="{{ description }}" />
   <meta property="og:image"       content="{{ absoluteImageUrl }}" />
   <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:height" content="630" /> -->
 
   <!-- Twitter Card (iOS Messages often respects this too) -->
-  <meta name="twitter:card"        content="summary_large_image" />
+  <!-- <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="{{ title }}" />
-  <meta name="twitter:description" content="{{ description }}" />
-  <meta name="twitter:image"       content="{{ absoluteImageUrl }}" />
+  <meta name="twitter:description" content="{{ description }}" />-->
 
   <!-- Favicon (small icon fallback) -->
   <link rel="icon" href="/ponder_icon.ico" />
@@ -172,7 +177,9 @@
       // Load audio
       if (storageKey) {
         try {
+          console.log(storageKey)
           const audioUrl = await getDownloadURL(ref(storage, storageKey));
+          console.log(audioUrl)
           const audioEl = document.getElementById("audio-player");
           audioEl.src = audioUrl;
           audioEl.style.display = "block";
