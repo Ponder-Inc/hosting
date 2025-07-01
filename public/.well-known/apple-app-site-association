@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "WYL269KZ2A.Company.Ponder",
-        "paths": [ "/discourse/*" ]
+        "paths": [ "/*" ]
       }
     ]
   }

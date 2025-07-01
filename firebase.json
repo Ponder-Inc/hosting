@@ -11,6 +11,15 @@
           }
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/**",
+        "run": {
+          "serviceId": "episode-api",
+          "region": "us-west1"
+        }
+      }
     ]
   }
 }
