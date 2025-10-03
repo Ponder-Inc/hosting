@@ -9,77 +9,81 @@
   <meta property="og:image" content="/images/placeholder.png" />
   <meta property="og:type" content="website" />
 
-  <!-- Tell bots this is an HTML page -->
   <meta charset="utf-8"/>
-  <title>Ponder 🔊</title>
+  <title>Ponder</title>
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Ponder 🔊" />
   <meta name="twitter:description" content="Listen to a Ponder." />
   <meta name="twitter:image" content="https://storage.googleapis.com/firstread1234.appspot.com/static_objects/ponder_social.jpg" />
 
-  
-  <!-- Open Graph (Facebook, iMessage, LinkedIn, etc.) -->
-  <!-- <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://share.ponderwith.us/{{discourseId}}" />
-  <meta property="og:title"       content="{{ title }}" />
-  <meta property="og:description" content="{{ description }}" />
-  <meta property="og:image"       content="{{ absoluteImageUrl }}" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" /> -->
-
-  <!-- Twitter Card (iOS Messages often respects this too) -->
-  <!-- <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="{{ title }}" />
-  <meta name="twitter:description" content="{{ description }}" />-->
-
-  <!-- Favicon (small icon fallback) -->
   <link rel="icon" href="/ponder_icon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/ponder_icon.png" />
 
-<!-- <title>Ponder</title>
-<meta name="theme-color" content="#ffffff" />
-<link rel="icon" href="/ponder_favicon.ico" /> -->
-
+  <!-- Inter (variable) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <!-- Lato (variable) -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Global typography */
+    html {
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    * { font-family: inherit; }
+
     body {
-      font-family: system-ui, sans-serif;
-      padding: 2rem;
+      padding: 0;
+      padding-bottom: 0; /* avoid footer overlap with content */
       background: #f9f9f9;
       color: #333;
     }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+    }
+
     .container {
       max-width: 480px;
-      margin: auto;
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      padding: 1.5rem;
+      border-radius: 32px;
+      overflow: hidden;
+      /*padding: clamp(24px, 6vw, 40px);*/
+      padding: 10rem;
       text-align: center;
     }
-    .thumbnail-wrapper {
-      position: relative;
-      display: inline-block;
+    .thumbnail-wrapper { 
+      padding: clamp(8px, 3vw, 16px);
+      position: relative; 
+      display: inline-block; 
     }
+
+    /* Image just fills the frame */
     img.thumbnail {
+      display: block;
       width: 100%;
       max-width: 360px;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s ease-in-out;
+      height: auto;
+      border-radius: 20px;                   
     }
-    img.thumbnail:hover {
-      transform: scale(1.01);
-    }
+
     .title {
-      font-size: 1.3rem;
+      font-family: "Lato", sans-serif; /* Or revert to Inter */
+      font-size: 1.75rem; /* 1.5 rem */
       font-weight: 600;
       margin-top: 1.25rem;
     }
     .description {
-      font-style: italic;
-      font-size: 0.95rem;
-      color: #555;
+      font-size: 1.25rem;
+      color: #888;
       margin-top: 0.5rem;
     }
     audio {
@@ -87,17 +91,174 @@
       width: 100%;
       margin-top: 1.5rem;
     }
+
+    /* Footer */
+    .site-footer {
+      position: fixed;
+      left: 0; right: 0; bottom: 20px;         /* 20px from bottom */
+    }
+    .site-footer__inner {
+      display: flex;
+      justify-content: center;                  /* center whole row on page */
+      align-items: center;
+      gap: 24px;                                /* 24px between copyright and links group */
+      padding: 6px 10px;
+      color: #8e8e93;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+      font-weight: 300;                         /* Inter Light */
+      background: transparent;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .site-footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .site-footer a:hover,
+    .site-footer a:focus { text-decoration: underline; }
+
+    /* Right-side link group */
+    .footer-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;                                 /* 4px between every item (link or dot) */
+    }
+
+    /* Dots: Inter Thin */
+    .footer-dot {
+      font-weight: 100;                          /* Inter Thin */
+      line-height: 1;
+      user-select: none;
+    }
+
+    .thumbnail-wrapper { 
+      position: relative; 
+      display: inline-block; 
+    }
+
+    /* Cloud Logo */
+    .thumbnail-overlay {
+      position: absolute;
+      right: 21px; 
+      bottom: 21px;
+      display: inline-block;
+      transform-origin: center;
+      transition: transform 600ms ease;
+    }
+    .thumbnail-overlay:hover {
+      transform: scale(1.06);
+    }
+    /* Size the icon inside the link */
+    .thumbnail-overlay > img {
+      display: block;
+      width: 42px;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .thumb-frame {
+      display: inline-block;
+      border-radius: 20px;
+      overflow: hidden;
+
+      /* Softer, natural Apple-style shadow */
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),   /* tiny crisp base shadow */
+        0 4px 8px rgba(0, 0, 0, 0.08),   /* medium soft blur */
+        0 12px 24px rgba(0, 0, 0, 0.06); /* large, very soft background blur */
+    }
+
+    .media-controls-container, .media-controls-container > * {
+      border-radius: 24px;
+    }
+
+    /* Mobile Sizing */
+    @media (max-width: 800px) {
+      .site-footer__inner {
+        flex-direction: column;     /* two lines */
+        gap: 2px;                   /* was larger — tighten the line gap */
+        padding: 4px 10px;          /* smaller vertical padding */
+      }
+
+      /* tighten line height + remove stray margins */
+      .site-footer__inner,
+      .site-footer__inner * {
+        line-height: 1.65;
+      }
+      .footer-copy,
+      .footer-links { margin: 0; }
+
+      /* keep links inline and compact */
+      .footer-links { gap: 6px; }   /* horizontal spacing between items */
+      .footer-links a { padding: 0; }
+
+      .container {
+        max-width: 800px;
+        background: white;
+        border-radius: 32px;
+        overflow: hidden;
+        padding: clamp(24px, 6vw, 40px);
+        text-align: center;
+      }
+      img.thumbnail {
+        display: block;
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        border-radius: 20px;                   
+      }
+      .title {
+        font-family: "Lato", sans-serif; /* Or revert to Inter */
+        font-size: 1.55rem; /* 1.5 rem */
+        font-weight: 600;
+        margin-top: 1.25rem;
+      }
+      .description {
+        font-size: 1.15rem;
+        color: #888;
+        margin-top: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="thumbnail-wrapper">
-      <img id="card-image" class="thumbnail" src="/images/placeholder.png" alt="Ponder image" />
+      <div class="thumb-frame">
+        <img id="card-image" class="thumbnail" src="images/placeholder.png" alt="Thumbnail Image" />
+        <a
+          class="thumbnail-overlay"
+          href="https://ponderwith.us"
+          target="_blank"
+          rel="noopener"
+          aria-label="Go to Homepage"
+        >
+          <img src="images/pondericon.png" alt="" aria-hidden="true" />
+        </a>
+      </div>
     </div>
     <div class="title" id="card-title">Loading...</div>
-    <div class="description" id="card-description">Please wait while we load your Ponder.</div>
+    <div class="description" id="card-description">Topic description.</div>
     <audio id="audio-player" controls style="display: none;"></audio>
   </div>
+
+  <!-- Footer -->
+<footer class="site-footer" aria-label="Site footer">
+  <div class="site-footer__inner">
+    <div class="footer-copy">
+      Copyright © <span id="copyright-year">2025</span> Ponder Platforms, Inc. All rights reserved.
+    </div>
+
+    <div class="footer-links" aria-label="Footer links">
+      <a href="https://ponderwith.us/privacy-policy" rel="noopener">Privacy Policy</a>
+      <span class="footer-dot" aria-hidden="true">•</span>
+      <a href="https://ponderwith.us/terms-of-use" rel="noopener">Terms of Use</a>
+      <span class="footer-dot" aria-hidden="true">•</span>
+      <a href="https://ponderwith.us/support" rel="noopener">Support</a>
+    </div>
+  </div>
+</footer>
 
   <script id="card-topic-data" type="application/json">
   {
@@ -107,6 +268,13 @@
     "gradientImageUrl": "",
     "audioStorageKey": ""
   }
+  </script>
+
+  <script>
+    (function () {
+      var y = document.getElementById('copyright-year');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
   </script>
 
   <script type="module">
@@ -135,19 +303,22 @@
     try {
       const discourseSnap = await getDoc(discourseRef);
       if (!discourseSnap.exists()) {
-        console.error("❌ Discourse not found:", id);
-        document.getElementById("card-title").innerText = "Discourse not found.";
+        console.error("❌ Ponder not found:", id);
+        document.getElementById("card-title").innerText = "Ponder not found.";
       }
 
       const d = discourseSnap.data();
-      console.log("✅ Loaded discourse:", d);
+      console.log("Loaded discourse:", d);
 
-      const title = d.title || "Untitled";
-      const description = d.topic || "No description.";
-      const storageKey = d.combined_audio_storage_key;
-      const ponderId = d.ponder_id;
+      // Fallbacks so the page always shows something
+      const title = d?.title || "Loading...";
+      const description = d?.topic || "Topic description.";
+      const storageKey = d?.combined_audio_storage_key || null;
+      const ponderId = d?.ponder_id || null;
 
-      let gradientImageUrl = "/images/placeholder.png";
+      // Default image fallback
+      let gradientImageUrl = d?.gradient_image?.url || "images/placeholder.png";
+
       if (ponderId) {
         try {
           const ponderSnap = await getDoc(doc(db, "ponders_v2", ponderId));
@@ -164,8 +335,13 @@
       }
 
       // Update UI
-      document.title = title;
-      document.getElementById("card-title").innerText = title;
+      let pageTitle = title;
+      if (pageTitle === "Loading..." || !pageTitle) {
+        document.title = "Loading — Ponder";              // or "Loading – Ponder" if you prefer
+      } else {
+        document.title = `${pageTitle} – Ponder`;
+      }
+            document.getElementById("card-title").innerText = title;
       document.getElementById("card-description").innerText = description;
       document.getElementById("card-image").src = gradientImageUrl;
 
