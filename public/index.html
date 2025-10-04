@@ -35,11 +35,172 @@
     }
     * { font-family: inherit; }
 
+    html, body {
+      height: auto;
+      min-height: 100svh;
+      margin: 0;
+      display: block; /* allow normal document flow + scroll */
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+
+    body {
+      display: grid;
+      grid-template-rows: 1fr auto;  /* content takes remaining height, footer after */
+      padding: 0;
+      gap: 0;
+    }
+
+    .container {
+      inline-size: calc(100dvw - 40px);  
+      max-width: 480px;
+      margin: 16px auto;
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      padding: 10rem;
+      text-align: center;
+    }
+
+    .thumbnail-wrapper { 
+      padding: clamp(8px, 3vw, 16px);
+      position: relative; 
+      display: inline-block; 
+    }
+
+    /* Image just fills the frame */
+    img.thumbnail {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      border-radius: 20px;                   
+    }
+
+    .title {
+      font-family: "Lato", sans-serif; /* Or revert to Inter */
+      font-size: 1.75rem; /* 1.5 rem */
+      font-weight: 600;
+      margin-top: 1.25rem;
+      max-inline-size: min(38ch, 90%);
+      margin-inline: auto;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+    }
+    .description {
+      font-size: 1.25rem;
+      color: #888;
+      margin-top: 0.5rem;
+      margin-inline: auto;
+      max-inline-size: min(40ch, 92%)
+    }
+    audio {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    /* Footer */
+    :root { 
+      --footer-h: 44px; 
+      --footer-gap: 20px;
+    }
+
+    .site-footer {
+      position: static;
+      margin-block-start: 20px;
+      padding-bottom: 20px;
+    }
+
+    .site-footer__inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      padding: 6px 10px;
+      color: #8e8e93;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+      font-weight: 300;
+      background: transparent;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .site-footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .site-footer a:hover,
+    .site-footer a:focus { text-decoration: underline; }
+
+    /* Right-side link group */
+    .footer-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;                                 /* 4px between every item (link or dot) */
+    }
+
+    /* Dots: Inter Thin */
+    .footer-dot {
+      font-weight: 100;                          /* Inter Thin */
+      line-height: 1;
+      user-select: none;
+    }
+
+    .thumbnail-wrapper { 
+      position: relative; 
+      display: inline-block; 
+    }
+
+    /* Cloud Logo */
+    .thumbnail-overlay {
+      position: absolute;
+      right: 21px; 
+      bottom: 17px;
+      display: inline-block;
+      transform-origin: center;
+      transition: transform 600ms ease;
+    }
+    .thumbnail-overlay:hover {
+      transform: scale(1.06);
+    }
+    /* Size the icon inside the link */
+    .thumbnail-overlay > img {
+      display: block;
+      width: 42px;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .thumb-frame {
+      position: relative; 
+      display: inline-block;
+      border-radius: 20px;
+      overflow: hidden;
+
+      /* Softer, natural Apple-style shadow */
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),   /* tiny crisp base shadow */
+        0 4px 8px rgba(0, 0, 0, 0.08),   /* medium soft blur */
+        0 12px 24px rgba(0, 0, 0, 0.06); /* large, very soft background blur */
+    }
+
+    .media-controls-container, .media-controls-container > * {
+      border-radius: 24px;
+    }
+
+    /* Mobile Portrait Sizing */
+    @media (max-width: 480px) {
+      *, *::before, *::after { box-sizing: border-box; }
+
+
     body {
       padding: 0;
-      padding-bottom: 0; /* avoid footer overlap with content */
+      padding-bottom: 0;
       background: #f9f9f9;
       color: #333;
+      padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
     }
 
     html, body {
@@ -56,7 +217,6 @@
       background: white;
       border-radius: 32px;
       overflow: hidden;
-      /*padding: clamp(24px, 6vw, 40px);*/
       padding: 10rem;
       text-align: center;
     }
@@ -80,11 +240,18 @@
       font-size: 1.75rem; /* 1.5 rem */
       font-weight: 600;
       margin-top: 1.25rem;
+      max-inline-size: min(38ch, 90%);
+      margin-inline: auto;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      hyphens: auto;
     }
     .description {
       font-size: 1.25rem;
       color: #888;
       margin-top: 0.5rem;
+      margin-inline: auto;
+      max-inline-size: min(40ch, 92%)
     }
     audio {
       display: block;
@@ -93,9 +260,491 @@
     }
 
     /* Footer */
+    :root { 
+      --footer-h: 44px; 
+      --footer-gap: 20px;
+    }
+
     .site-footer {
       position: fixed;
-      left: 0; right: 0; bottom: 20px;         /* 20px from bottom */
+      left: 0; right: 0; bottom: 0;
+      height: var(--footer-h);
+      padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
+    }
+    .site-footer__inner {
+      display: flex;
+      justify-content: center;                  /* center whole row on page */
+      align-items: center;
+      gap: 24px;                                /* 24px between copyright and links group */
+      padding: 6px 10px;
+      color: #8e8e93;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+      font-weight: 300;                         /* Inter Light */
+      background: transparent;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .site-footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .site-footer a:hover,
+    .site-footer a:focus { text-decoration: underline; }
+
+    /* Right-side link group */
+    .footer-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;                                 /* 4px between every item (link or dot) */
+    }
+
+    /* Dots: Inter Thin */
+    .footer-dot {
+      font-weight: 100;                          /* Inter Thin */
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* Cloud Logo */
+    .thumbnail-overlay {
+      position: absolute;
+      right: 21px; 
+      bottom: 17px;
+      display: inline-block;
+      transform-origin: center;
+      transition: transform 600ms ease;
+    }
+    .thumbnail-overlay:hover {
+      transform: scale(1.06);
+    }
+    /* Size the icon inside the link */
+    .thumbnail-overlay > img {
+      display: block;
+      width: 42px;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .thumb-frame {
+      position: relative; 
+      display: inline-block;
+      border-radius: 20px;
+      overflow: hidden;
+
+      /* Softer, natural Apple-style shadow */
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),   /* tiny crisp base shadow */
+        0 4px 8px rgba(0, 0, 0, 0.08),   /* medium soft blur */
+        0 12px 24px rgba(0, 0, 0, 0.06); /* large, very soft background blur */
+    }
+
+    .media-controls-container, .media-controls-container > * {
+      border-radius: 24px;
+    }
+
+      html, body {
+        height: auto;
+        min-height: 100svh;   /* safe against mobile browser UI */
+        display: block; /* allow normal document flow + scroll */
+        overflow-y: auto;
+        background: #f9f9f9;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: 1fr auto;  /* content takes remaining height, footer after */
+        padding-bottom: env(safe-area-inset-bottom); /* safe area on iOS */
+      }
+
+      .site-footer__inner {
+        flex-direction: column;     /* two lines */
+        gap: 2px;                   /* was larger — tighten the line gap */
+        padding: 4px 10px;          /* smaller vertical padding */
+      }
+      .site-footer__inner,
+      .site-footer__inner * {
+        line-height: 1.65;
+      }
+      .site-footer {
+        position: static;
+        height: auto;
+        padding-bottom: 0;
+        margin-bottom: 20px;
+      }
+      .footer-copy,
+      .footer-links { margin: 0; }
+      .footer-links { gap: 6px; }   /* horizontal spacing between items */
+      .footer-links a { padding: 0; }
+
+      .title { margin-top: 0; }
+      .description{ 
+        margin-bottom: clamp(10px, 2.5vh, 18px); 
+        margin-inline: auto;
+        max-inline-size: min(40ch, 92%);
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .container {
+        inline-size: calc(100dvw - 40px);        
+        max-width: min(800px, calc(100% - 40px));
+        min-height: 560px;
+        margin: 16px auto;
+        background: white;
+        border-radius: 36px;
+        overflow: hidden;
+        padding: clamp(24px, 6vw, 40px);
+        justify-self: center;
+        text-align: center;
+      }
+
+      .thumbnail-wrapper {
+        padding-top: calc( clamp(8px, 3dvw, 16px) + 20px );
+      }
+      .thumbnail-overlay {
+        position: absolute;
+        right: 21px; 
+        bottom: 15px;
+        display: inline-block;
+        transform-origin: center;
+        transition: transform 600ms ease;
+      }
+      img.thumbnail {
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        border-radius: 20px;    
+      }
+      .title {
+        font-family: "Lato", sans-serif; /* Or revert to Inter */
+        font-size: 1.2rem; /* 1.5 rem */
+        font-weight: 600;
+        margin-top: 1.25rem;
+      }
+      .description {
+        font-size: 0.95rem;
+        color: #888;
+        margin-top: 0.5rem;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+    }
+
+    /* Mobile Landscape Formatting */
+    @media (orientation: landscape) and (max-height: 500px) {
+      *, *::before, *::after { box-sizing: border-box; }
+
+
+    body {
+      padding: 0;
+      padding-bottom: 0;
+      background: #f9f9f9;
+      color: #333;
+      padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+    }
+
+    .container {
+      max-width: 480px;
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      padding: 10rem;
+      text-align: center;
+    }
+    .thumbnail-wrapper { 
+      padding: clamp(8px, 3vw, 16px);
+      position: relative; 
+      display: inline-block; 
+    }
+
+    /* Image just fills the frame */
+    img.thumbnail {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      border-radius: 20px;                   
+    }
+
+    .title {
+      font-family: "Lato", sans-serif; /* Or revert to Inter */
+      font-size: 1.75rem; /* 1.5 rem */
+      font-weight: 600;
+      margin-top: 1.25rem;
+      max-inline-size: min(38ch, 90%);
+      margin-inline: auto;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+    }
+    .description {
+      font-size: 1.25rem;
+      color: #888;
+      margin-top: 0.5rem;
+      margin-inline: auto;
+      max-inline-size: min(40ch, 92%)
+    }
+    audio {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    /* Footer */
+    :root { 
+      --footer-h: 44px; 
+      --footer-gap: 20px;
+    }
+
+    .site-footer {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: var(--footer-h);
+      padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
+    }
+    .site-footer__inner {
+      display: flex;
+      justify-content: center;                  /* center whole row on page */
+      align-items: center;
+      gap: 24px;                                /* 24px between copyright and links group */
+      padding: 6px 10px;
+      color: #8e8e93;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+      font-weight: 300;                         /* Inter Light */
+      background: transparent;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .site-footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .site-footer a:hover,
+    .site-footer a:focus { text-decoration: underline; }
+
+    /* Right-side link group */
+    .footer-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;                                 /* 4px between every item (link or dot) */
+    }
+
+    /* Dots: Inter Thin */
+    .footer-dot {
+      font-weight: 100;                          /* Inter Thin */
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* Cloud Logo */
+    .thumbnail-overlay {
+      position: absolute;
+      right: 21px; 
+      bottom: 17px;
+      display: inline-block;
+      transform-origin: center;
+      transition: transform 600ms ease;
+    }
+    .thumbnail-overlay:hover {
+      transform: scale(1.06);
+    }
+    /* Size the icon inside the link */
+    .thumbnail-overlay > img {
+      display: block;
+      width: 42px;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .thumb-frame {
+      position: relative; 
+      display: inline-block;
+      border-radius: 20px;
+      overflow: hidden;
+
+      /* Softer, natural Apple-style shadow */
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),   /* tiny crisp base shadow */
+        0 4px 8px rgba(0, 0, 0, 0.08),   /* medium soft blur */
+        0 12px 24px rgba(0, 0, 0, 0.06); /* large, very soft background blur */
+    }
+
+    .media-controls-container, .media-controls-container > * {
+      border-radius: 24px;
+    }
+
+      /* Page scrolls; grid pushes footer to the end */
+      html, body {
+        height: auto;
+        min-height: 100svh;
+        display: block;
+        overflow-y: auto;
+        margin: 0;
+        background: #f9f9f9;
+      }
+      body {
+        display: grid;
+        grid-template-rows: 1fr auto;           /* content, then footer */
+        row-gap: 20px;                           /* spacer above footer */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 20px); /* padding below footer */
+      }
+
+      /* Footer in flow, full-bleed */
+      .site-footer {
+        position: static;
+        height: auto;
+        margin: 0;
+        padding-bottom: 0;
+      }
+      .site-footer__inner {
+        flex-direction: column;
+        gap: 4px;
+        padding: 6px 10px;
+        align-items: center;
+      }
+
+      /* Card: screen width - 40px, fixed min-height */
+      .container {
+        inline-size: calc(100dvw - 40px);
+        min-height: 400px;
+        margin: 16px auto;
+        background: white;
+        border-radius: 32px;
+        overflow: hidden;
+        padding: 24px;
+        justify-self: center;
+        text-align: center;
+      }
+
+      /* Thumbnail extra top padding (landscape-specific sizing) */
+      .thumbnail-wrapper {
+        padding-top: calc( clamp(8px, 3dvw, 16px));
+      }
+
+      /* Image + text sizing */
+      img.thumbnail {
+        display: block;
+        width: 100%;
+        max-width: 120px;
+        height: auto;
+        border-radius: 20px;
+        margin: 0 auto;
+      }
+      .thumbnail-overlay { right: 15px; bottom: 11px; }
+      .thumbnail-overlay > img { width: 28px; }
+      .title {
+        max-inline-size: min(38ch, 90%);
+        margin-inline: auto;
+        font-size: 1.2rem;
+        margin-top: 0;
+      }
+      .description {
+        font-size: 0.95rem;
+        max-inline-size: min(40ch, 82%);
+        margin-inline: auto;
+        margin-bottom: clamp(10px, 2.5vh, 18px);
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+    }
+
+    /* Tablet Landscape (iPad mini / iPad 11" etc.) */
+    @media (orientation: landscape)
+      and (min-width: 1130px)
+      and (max-width: 1185px)
+      and (min-height: 740px)
+      and (max-height: 825px) {
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+
+    body {
+      padding: 0;
+      padding-bottom: 0;
+      background: #f9f9f9;
+      color: #333;
+      padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+    }
+
+    .container {
+      max-width: 480px;
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      padding: 10rem;
+      text-align: center;
+    }
+    .thumbnail-wrapper { 
+      padding: clamp(8px, 3vw, 16px);
+      position: relative; 
+      display: inline-block; 
+    }
+
+    /* Image just fills the frame */
+    img.thumbnail {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      border-radius: 20px;                   
+    }
+
+    .title {
+      font-family: "Lato", sans-serif; /* Or revert to Inter */
+      font-size: 1.75rem; /* 1.5 rem */
+      font-weight: 600;
+      margin-top: 1.25rem;
+      max-inline-size: min(38ch, 90%);
+      margin-inline: auto;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+    }
+    .description {
+      font-size: 1.25rem;
+      color: #888;
+      margin-top: 0.5rem;
+      margin-inline: auto;
+      max-inline-size: min(40ch, 92%)
+    }
+    audio {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    /* Footer */
+    :root { 
+      --footer-h: 44px; 
+      --footer-gap: 20px;
+    }
+
+    .site-footer {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: var(--footer-h);
+      padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
     }
     .site-footer__inner {
       display: flex;
@@ -141,7 +790,7 @@
     .thumbnail-overlay {
       position: absolute;
       right: 21px; 
-      bottom: 21px;
+      bottom: 17px;
       display: inline-block;
       transform-origin: center;
       transition: transform 600ms ease;
@@ -158,6 +807,7 @@
     }
 
     .thumb-frame {
+      position: relative; 
       display: inline-block;
       border-radius: 20px;
       overflow: hidden;
@@ -173,54 +823,89 @@
       border-radius: 24px;
     }
 
-    /* Mobile Sizing */
-    @media (max-width: 800px) {
+      /* Page scrolls; grid pushes footer to bottom with spacing */
+      html, body {
+        height: auto;
+        min-height: 100svh;
+        display: block;
+        overflow-y: auto;
+        margin: 0;
+        background: #f9f9f9;
+      }
+      body {
+        display: grid;
+        grid-template-rows: 1fr auto;                    /* content then footer */
+        row-gap: 20px;                                    /* 20px spacer above footer */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 20px); /* 20px below footer */
+      }
+
+      /* Footer in flow, full-bleed */
+      .site-footer {
+        position: static;
+        height: auto;
+        margin: 0;
+        padding-bottom: 0;
+      }
       .site-footer__inner {
-        flex-direction: column;     /* two lines */
-        gap: 2px;                   /* was larger — tighten the line gap */
-        padding: 4px 10px;          /* smaller vertical padding */
+        flex-direction: column;
+        gap: 4px;
+        padding: 6px 10px;
+        align-items: center;
       }
 
-      /* tighten line height + remove stray margins */
-      .site-footer__inner,
-      .site-footer__inner * {
-        line-height: 1.65;
-      }
-      .footer-copy,
-      .footer-links { margin: 0; }
-
-      /* keep links inline and compact */
-      .footer-links { gap: 6px; }   /* horizontal spacing between items */
-      .footer-links a { padding: 0; }
-
+      /* Card: exactly screen width - 40px, fixed min-height */
       .container {
-        max-width: 800px;
-        background: white;
-        border-radius: 32px;
+        inline-size: calc(100dvw - 40px);                /* use 100vw if 100dvw unsupported */
+        min-height: 520px; 
+        margin: 16px auto;
+        background: #fff;
+        border-radius: 36px;
         overflow: hidden;
-        padding: clamp(24px, 6vw, 40px);
+        padding: 24px;                                    /* fixed padding to avoid vw jitter */
+        justify-self: center;
         text-align: center;
       }
+
+      /* Thumbnail top padding (reuse your portrait logic if desired) */
+      .thumbnail-wrapper {
+        padding-top: calc(clamp(8px, 3dvw, 16px) + 16px);
+      }
+
+      /* Keep the thumbnail small like phones */
       img.thumbnail {
         display: block;
         width: 100%;
-        max-width: 280px;
+        max-width: 200px;                                 /* back to previous size */
         height: auto;
-        border-radius: 20px;                   
+        border-radius: 20px;
+        margin: 0 auto;
       }
+
+      /* Text width constraints */
       .title {
-        font-family: "Lato", sans-serif; /* Or revert to Inter */
-        font-size: 1.55rem; /* 1.5 rem */
-        font-weight: 600;
-        margin-top: 1.25rem;
+        max-inline-size: min(38ch, 90%);
+        margin-inline: auto;
+        font-size: 1.2rem;
+        margin-top: 0;
       }
       .description {
-        font-size: 1.15rem;
-        color: #888;
-        margin-top: 0.5rem;
+        font-size: 0.95rem;
+        max-inline-size: min(40ch, 82%);
+        margin-inline: auto;
+        margin-bottom: clamp(10px, 2.5vh, 18px);
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
     }
-  </style>
+
+    /* iPad mini — Portrait (≈744px wide) */
+    @media (orientation: portrait) and (min-width: 740px) and (max-width: 825px) {
+      .container {
+        inline-size: min(400px, calc(100dvw - 40px));
+      }
+    }
+
+</style>
 </head>
 <body>
   <div class="container">
@@ -238,8 +923,8 @@
         </a>
       </div>
     </div>
-    <div class="title" id="card-title">Loading...</div>
-    <div class="description" id="card-description">Topic description.</div>
+    <div class="title" id="card-title"></div> <!-- Loading... -->
+    <div class="description" id="card-description"></div> <!-- Topic description -->
     <audio id="audio-player" controls style="display: none;"></audio>
   </div>
 
@@ -311,8 +996,8 @@
       console.log("Loaded discourse:", d);
 
       // Fallbacks so the page always shows something
-      const title = d?.title || "Loading...";
-      const description = d?.topic || "Topic description.";
+      const title = d?.title || "Title"; /* Transgender Identity: Malformation or Variation */
+      const description = d?.topic || "Topic description"; /* The question of whether the QWERTY keyboard was originally invented to prevent typewriters from jamming is explored through historical analysis and modern ergonomic considerations */
       const storageKey = d?.combined_audio_storage_key || null;
       const ponderId = d?.ponder_id || null;
 
@@ -336,7 +1021,7 @@
 
       // Update UI
       let pageTitle = title;
-      if (pageTitle === "Loading..." || !pageTitle) {
+      if (pageTitle === "" || !pageTitle) {
         document.title = "Loading — Ponder";              // or "Loading – Ponder" if you prefer
       } else {
         document.title = `${pageTitle} – Ponder`;
